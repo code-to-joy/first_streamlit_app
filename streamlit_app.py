@@ -44,7 +44,7 @@ try:
     streamlit.dataframe(fruityvice_normalized)
 
 except URLError as e:
-  streamlit.error ()
+  streamlit.error()
   
 fruit_to_add = streamlit.text_input('What fruit to you want to add?')
 streamlit.write('The user wanted to add ', fruit_to_add)
