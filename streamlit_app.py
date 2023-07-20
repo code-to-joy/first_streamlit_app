@@ -33,21 +33,21 @@ streamlit.dataframe(fruits_to_show)
 # Fruity vice API response
 streamlit.header("Fruityvice Fruit Advice!")
 
-fruit_choice = streamlit.text_input('What fruit would you like information about?','Kiwi')
-streamlit.write('The user entered ', fruit_choice)
+try: 
+  fruit_choice = streamlit.text_input('What fruit would you like information about?')
 
-import requests
-fruityvice_response = requests.get("https://fruityvice.com/api/fruit/" + fruit_choice)
+  if not fruit_choice:
+    streamlit.error("Please select a fruit to get information.")
+  else:
+    fruityvice_response = requests.get("https://fruityvice.com/api/fruit/" + fruit_choice)
+    fruityvice_normalized = pandas.json_normalize(fruityvice_response.json())
+    streamlit.dataframe(fruityvice_normalized)
 
-# normalize the fruity vice data with panda
-fruityvice_normalized = pandas.json_normalize(fruityvice_response.json())
-# create dataframe of normalized data
-streamlit.dataframe(fruityvice_normalized)
-
+except URLError as e:
+  streamlit.error ()
+  
 fruit_to_add = streamlit.text_input('What fruit to you want to add?')
 streamlit.write('The user wanted to add ', fruit_to_add)
-
-streamlit.write("new")
 
 streamlit.stop()
 
